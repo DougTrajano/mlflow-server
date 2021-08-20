@@ -1,4 +1,4 @@
 mlflow==1.19.0
 pymysql==1.0.2
 psycopg2-binary==2.9.1
-boto3==1.18.24
+boto3==1.18.25
