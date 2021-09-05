@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "artifact_store" {
   count         = local.create_dedicated_bucket ? 1 : 0
-  bucket_prefix = "${local.name}-bucket"
+  bucket_prefix = "${local.name}-"
   acl           = "private"
 
   versioning {
