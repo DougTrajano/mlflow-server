@@ -26,7 +26,7 @@ RUN chmod +x /app/scripts/entry-point.sh \
     && chmod +x /app/scripts/mlflow.sh \
     && chmod +x /app/scripts/webserver.sh
 
-EXPOSE ${MLFLOW_PORT}
+EXPOSE ${PORT}
 
 # WWW (nginx)
 RUN addgroup -gid 1000 www \
