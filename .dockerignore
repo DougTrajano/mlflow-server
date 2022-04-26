@@ -2,3 +2,14 @@
 docs/
 terraform/
 .env
+
+# Common
+README.md
+CHANGELOG.md
+docker-compose.yml
+Dockerfile
+
+# git
+.git
+.gitattributes
+.gitignore

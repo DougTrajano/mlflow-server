@@ -44,3 +44,5 @@ terraform.rc
 *.iml
 out
 gen
+
+*.env
