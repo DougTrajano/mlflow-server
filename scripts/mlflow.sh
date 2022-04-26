@@ -34,6 +34,8 @@ if [[ -z "${MLFLOW_BACKEND_URI}" ]]; then
     export MLFLOW_BACKEND_URI=${MLFLOW_DB_DIALECT}://${MLFLOW_DB_USERNAME}:${MLFLOW_DB_PASSWORD}@${MLFLOW_DB_HOST}:${MLFLOW_DB_PORT}/${MLFLOW_DB_DATABASE}
 fi
 
+echo "Starting mlflow server"
+
 exec mlflow server --host 0.0.0.0 --port 5001 \
     --default-artifact-root "${MLFLOW_ARTIFACT_URI}" \
     --backend-store-uri "${MLFLOW_BACKEND_URI}"
