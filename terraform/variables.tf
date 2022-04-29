@@ -70,6 +70,12 @@ variable "db_skip_final_snapshot" {
   description = "(Optional) If true, this module will not create a final snapshot of the database before terminating."
 }
 
+variable "db_deletion_protection" {
+  type        = bool
+  default     = true
+  description = "(Optional) If true, this module will not delete the database after terminating."
+}
+
 variable "db_instance_class" {
   type        = string
   default     = "db.t2.micro"

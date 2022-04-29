@@ -31,6 +31,7 @@ resource "aws_rds_cluster" "mlflow_backend_store" {
   preferred_backup_window   = "04:00-06:00"
   final_snapshot_identifier = "mlflow-db-backup"
   skip_final_snapshot       = var.db_skip_final_snapshot
+  deletion_protection       = var.db_deletion_protection
   apply_immediately         = true
 
   scaling_configuration {
