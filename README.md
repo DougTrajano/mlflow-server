@@ -1,6 +1,8 @@
-# [MLflow](https://www.mlflow.org/) using AWS App Runner
+# [MLflow](https://www.mlflow.org/) with basic auth
 
-This project deploys an MLflow instance with basic auth (username/password) in AWS App Runner.
+This project deploys an MLflow Tracking Server with basic auth (username and password).
+
+We also provide a [Terraform](https://www.terraform.io/) configuration in the [terraform](terraform) directory that creates the required resources in AWS.  It uses the [AWS App Runner](https://aws.amazon.com/apprunner/) (a low-cost solution to run containers on AWS) to run the server.
 
 ## Architecture
 
@@ -30,10 +32,10 @@ This project deploys an MLflow instance with basic auth (username/password) in A
 </p>
 </details>
 
-<details><summary>Amazon RDS</summary>
+<details><summary>Amazon Aurora Serverless</summary>
 <p>
 
-[Amazon Relational Database Service (Amazon RDS)](https://aws.amazon.com/rds/) makes it easy to set up, operate, and scale a relational database in the cloud. Amazon RDS provides six familiar database engines to choose from, including Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle Database, and SQL Server. 
+[Amazon Aurora Serverless](https://aws.amazon.com/rds/aurora/serverless/) is an on-demand, autoscaling configuration for Amazon Aurora. It automatically starts up, shuts down, and scales capacity up or down based on your application's needs. You can run your database on AWS without managing database capacity.
 
 </p>
 </details>
@@ -107,7 +109,11 @@ To deploy MLflow, you'll need to:
 
 2. Configure AWS CLI to use your AWS account.
 
-3. Clone the repository: [github.com/DougTrajano/mlflow-server](https://github.com/DougTrajano/mlflow-server/)
+3. Clone this repository.
+
+```bash
+git clone https://github.com/DougTrajano/mlflow-server.git
+```
 
 4. Open `mlflow-server/terraform` folder.
 
@@ -119,24 +125,35 @@ cd mlflow-server/terraform
 
 ```bash
 terraform init
-terraform apply -var mlflow_username="USERNAME-HERE" -var mlflow_password="PASSWORD-HERE"
+terraform apply -var mlflow_username="YOUR-USERNAME" -var mlflow_password="YOUR-PASSWORD"
 ```
 
 6. Type "yes" when prompted to continue.
 
+```log
+Plan: 21 to add, 0 to change, 2 to destroy.
+
+Changes to Outputs:
+  + artifact_bucket_id  = (known after apply)
+  + mlflow_password     = (sensitive value)
+  + mlflow_username     = "YOUR-USERNAME"
+  + service_url         = (known after apply)
+  + status              = (known after apply)
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+```
+
 This will create the following resources:
 
-- An [S3 bucket](https://aws.amazon.com/s3/) for storing MLflow artifacts.
-- An [IAM role and policy](https://aws.amazon.com/iam/) for the MLflow server connect to the S3 bucket.
-- An [RDS](https://aws.amazon.com/rds/) database instance (MySQL) for storing MLflow metadata.
-- A service in [App Runner](https://aws.amazon.com/apprunner/) to run MLflow Tracking Server.
-
-![](docs/images/terraform_stack.png)
-
-## Next features
-
-- Change RDS Database to Aurora Serverless will reduce the cost drastically for those who don't use MLflow frequently, but Aurora Serverless can only connect with AWS resources that are in the same VPC, AWS App Runner doesn't support VPC yet.
-   - [Allow App Runner services to talk to AWS resources in a private Amazon VPC · Issue #1 · aws/apprunner-roadmap](https://github.com/aws/apprunner-roadmap/issues/1)
+- An [S3 bucket](https://aws.amazon.com/s3/) used to store MLflow artifacts.
+- An [IAM role and policy](https://aws.amazon.com/iam/) that allow MLflow to access the S3 bucket.
+- An [Aurora RDS Serverless v1](https://aws.amazon.com/rds/) database (PostgreSQL) used to store MLflow data.
+- An [App Runner](https://aws.amazon.com/apprunner/) that will run the MLflow Tracking Server.
+- (Optional) A set of network resources such as [VPC](https://aws.amazon.com/vpc/), [Subnet](https://aws.amazon.com/ec2/subnets/), and [Security group](https://aws.amazon.com/ec2/security-groups/).
 
 ## References
 
