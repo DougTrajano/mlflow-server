@@ -151,7 +151,7 @@ This will create the following resources:
 
 - An [S3 bucket](https://aws.amazon.com/s3/) used to store MLflow artifacts.
 - An [IAM role and policy](https://aws.amazon.com/iam/) that allow MLflow to access the S3 bucket.
-- An [Aurora RDS Serverless v1](https://aws.amazon.com/rds/) database (PostgreSQL) used to store MLflow data.
+- An [Aurora RDS Serverless](https://aws.amazon.com/rds/aurora/serverless/) database (PostgreSQL) used to store MLflow data.
 - An [App Runner](https://aws.amazon.com/apprunner/) that will run the MLflow Tracking Server.
 - (Optional) A set of network resources such as [VPC](https://aws.amazon.com/vpc/), [Subnet](https://aws.amazon.com/ec2/subnets/), and [Security group](https://aws.amazon.com/ec2/security-groups/).
 
@@ -159,5 +159,5 @@ This will create the following resources:
 
 - [Managing your machine learning lifecycle with MLflow and Amazon SageMaker | AWS Machine Learning Blog](https://aws.amazon.com/pt/blogs/machine-learning/managing-your-machine-learning-lifecycle-with-mlflow-and-amazon-sagemaker/)
 - [Introducing AWS App Runner](https://aws.amazon.com/pt/blogs/containers/introducing-aws-app-runner/)
-- [MLflow Documentation](https://www.mlflow.org/docs/latest/index.html) (current version: 1.19.0)
+- [MLflow Documentation](https://www.mlflow.org/docs/latest/index.html) (current version: 1.25.1)
 - [soundsensing/mlflow-easyauth: Deploy MLflow with HTTP basic authentication using Docker](https://github.com/soundsensing/mlflow-easyauth)
