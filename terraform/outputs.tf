@@ -1,13 +1,9 @@
 output "artifact_bucket_id" {
-  value = aws_s3_bucket.artifact_store.0.id
+  value = aws_s3_bucket.mlflow_artifact_store.0.id
 }
 
 output "service_url" {
-  value = aws_apprunner_service.server.service_url
-}
-
-output "port" {
-  value = local.app_port
+  value = "https://${aws_apprunner_service.mlflow_server.service_url}"
 }
 
 output "mlflow_username" {
@@ -20,5 +16,5 @@ output "mlflow_password" {
 }
 
 output "status" {
-  value = aws_apprunner_service.server.status
+  value = aws_apprunner_service.mlflow_server.status
 }

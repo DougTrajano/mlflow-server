@@ -4,7 +4,7 @@ resource "random_password" "mlflow_password" {
   override_special = "_%@"
 }
 
-resource "aws_apprunner_service" "server" {
+resource "aws_apprunner_service" "mlflow_server" {
   service_name = "${local.name}"
 
   source_configuration {
@@ -17,13 +17,13 @@ resource "aws_apprunner_service" "server" {
       image_configuration {
         port = local.app_port
         runtime_environment_variables = {
-          "MLFLOW_ARTIFACT_URI" = "s3://${aws_s3_bucket.artifact_store.0.id}"
-          "MLFLOW_DB_DIALECT" = "mysql+pymysql"
-          "MLFLOW_DB_USERNAME" = "${aws_db_instance.backend_store.username}"
-          "MLFLOW_DB_PASSWORD" = "${random_password.backend_store.result}"
-          "MLFLOW_DB_HOST" = "${aws_db_instance.backend_store.address}"
-          "MLFLOW_DB_PORT" = "${aws_db_instance.backend_store.port}"
-          "MLFLOW_DB_DATABASE" = "${aws_db_instance.backend_store.name}"
+          "MLFLOW_ARTIFACT_URI" = "s3://${aws_s3_bucket.mlflow_artifact_store.0.id}"
+          "MLFLOW_DB_DIALECT" = "postgresql"
+          "MLFLOW_DB_USERNAME" = "${aws_rds_cluster.mlflow_backend_store.master_username}"
+          "MLFLOW_DB_PASSWORD" = "${random_password.mlflow_backend_store.result}"
+          "MLFLOW_DB_HOST" = "${aws_rds_cluster.mlflow_backend_store.endpoint}"
+          "MLFLOW_DB_PORT" = "${aws_rds_cluster.mlflow_backend_store.port}"
+          "MLFLOW_DB_DATABASE" = "${aws_rds_cluster.mlflow_backend_store.database_name}"
           "MLFLOW_TRACKING_USERNAME" = var.mlflow_username
           "MLFLOW_TRACKING_PASSWORD" = local.mlflow_password
           }
@@ -34,7 +34,22 @@ resource "aws_apprunner_service" "server" {
   instance_configuration {
     cpu = var.service_cpu
     memory = var.service_memory
-    instance_role_arn = aws_iam_role.iam_role.arn
+    instance_role_arn = aws_iam_role.mlflow_iam_role.arn
+  }
+
+  network_configuration {
+    egress_configuration {
+      egress_type       = "VPC"
+      vpc_connector_arn = aws_apprunner_vpc_connector.connector.arn
+    }
+  }
+
+  health_check_configuration {
+    healthy_threshold   = 1
+    interval            = 20
+    # protocol            = "HTTP"
+    timeout             = 20
+    unhealthy_threshold = 20
   }
 
   tags = merge(
@@ -43,4 +58,36 @@ resource "aws_apprunner_service" "server" {
     },
     local.tags
   )
+}
+
+resource "aws_security_group" "mlflow_server_sg" {
+  name        = "${var.name}-server-sg"
+  description = "Allow access to ${local.name}-rds from VPC Connector."
+  vpc_id      = local.vpc_id
+
+  ingress {
+    description = "Access to ${local.name}-rds from VPC Connector."
+    from_port   = local.db_port
+    to_port     = local.db_port
+    protocol    = "tcp"
+    self        = true
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  tags = {
+    Name = "${var.name}-server-sg"
+  }
+}
+
+resource "aws_apprunner_vpc_connector" "connector" {
+  vpc_connector_name = "${local.name}-connector"
+  subnets            = local.db_subnet_ids
+  security_groups    = local.create_dedicated_vpc ? [aws_security_group.mlflow_server_sg.id] : var.vpc_security_group_ids
 }

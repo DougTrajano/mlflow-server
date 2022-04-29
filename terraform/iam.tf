@@ -1,4 +1,4 @@
-resource "aws_iam_role" "iam_role" {
+resource "aws_iam_role" "mlflow_iam_role" {
   name = "${local.name}-role"
 
   assume_role_policy = jsonencode({
@@ -29,10 +29,10 @@ resource "aws_iam_role" "iam_role" {
   )
 }
 
-resource "aws_iam_role_policy" "bucket_policy" {
+resource "aws_iam_role_policy" "mlflow_bucket_policy" {
   count       = local.create_dedicated_bucket ? 1 : 0
   name_prefix = "access_to_mlflow_bucket"
-  role        = aws_iam_role.iam_role.id
+  role        = aws_iam_role.mlflow_iam_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -44,7 +44,7 @@ resource "aws_iam_role_policy" "bucket_policy" {
           "s3:HeadBucket",
         ]
         Resource = concat(
-          aws_s3_bucket.artifact_store.*.arn,
+          aws_s3_bucket.mlflow_artifact_store.*.arn,
         )
       },
       {
@@ -68,7 +68,7 @@ resource "aws_iam_role_policy" "bucket_policy" {
           "s3:GetObjectVersion",
         ]
         Resource = [
-          for bucket in concat(aws_s3_bucket.artifact_store.*.arn) :
+          for bucket in concat(aws_s3_bucket.mlflow_artifact_store.*.arn) :
           "${bucket}/*"
         ]
       },

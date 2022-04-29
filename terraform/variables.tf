@@ -22,6 +22,18 @@ variable "tags" {
   default = {}
 }
 
+variable "vpc_id" {
+  type        = string
+  description = "(Optional) VPC ID."
+  default     = null
+}
+
+variable "vpc_security_group_ids" {
+  type        = list(string)
+  description = "(Optional) Security group IDs to allow access to the VPC. It will be used only if vpc_id is set."
+  default     = null
+}
+
 variable "service_cpu" {
   type        = number
   default     = 1024
@@ -64,36 +76,32 @@ variable "db_instance_class" {
   description = "(Optional) The instance type of the RDS instance."
 }
 
-# variable "vpc_id" {
-#   type        = string
-#   description = "AWS VPC to deploy MLflow into"
-# }
+variable "db_subnet_ids" {
+  type        = list(string)
+  default     = null
+  description = "List of subnets where the RDS database will be deployed"
+}
 
-# variable "db_subnet_ids" {
-#   type        = list(string)
-#   description = "List of subnets where the RDS database will be deployed"
-# }
+variable "db_auto_pause" {
+  type        = bool
+  default     = true
+  description = "If true, the Aurora Serverless cluster will be paused after a given amount of time with no activity. https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html#aurora-serverless.how-it-works.pause-resume"
+}
 
-# variable "db_auto_pause" {
-#   type        = bool
-#   default     = true
-#   description = "If true, the Aurora Serverless cluster will be paused after a given amount of time with no activity. https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html#aurora-serverless.how-it-works.pause-resume"
-# }
+variable "db_auto_pause_seconds" {
+  type        = number
+  default     = 1800
+  description = "The number of seconds to wait before automatically pausing the Aurora Serverless cluster. This is only used if rds_auto_pause is true."
+}
 
-# variable "db_auto_pause_seconds" {
-#   type        = number
-#   default     = 300
-#   description = "The number of seconds to wait before automatically pausing the Aurora Serverless cluster. This is only used if rds_auto_pause is true."
-# }
+variable "db_min_capacity" {
+  type        = number
+  default     = 2
+  description = "The minimum capacity for the Aurora Serverless cluster. Aurora will scale automatically in this range. See: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html"
+}
 
-# variable "db_min_capacity" {
-#   type        = number
-#   default     = 1
-#   description = "The minimum capacity for the Aurora Serverless cluster. Aurora will scale automatically in this range. See: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html"
-# }
-
-# variable "db_max_capacity" {
-#   type        = number
-#   default     = 256
-#   description = "The maximum capacity for the Aurora Serverless cluster. Aurora will scale automatically in this range. See: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html"
-# }
+variable "db_max_capacity" {
+  type        = number
+  default     = 64
+  description = "The maximum capacity for the Aurora Serverless cluster. Aurora will scale automatically in this range. See: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html"
+}
