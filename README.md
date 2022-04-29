@@ -128,17 +128,19 @@ terraform init
 terraform apply -var mlflow_username="YOUR-USERNAME" -var mlflow_password="YOUR-PASSWORD"
 ```
 
+See a full list of variables that can be used in [terraform/variables.tf](terraform/variables.tf).
+
 6. Type "yes" when prompted to continue.
 
 ```log
-Plan: 21 to add, 0 to change, 2 to destroy.
+Plan: 21 to add, 0 to change, 0 to destroy.
 
 Changes to Outputs:
-  + artifact_bucket_id  = (known after apply)
-  + mlflow_password     = (sensitive value)
-  + mlflow_username     = "YOUR-USERNAME"
-  + service_url         = (known after apply)
-  + status              = (known after apply)
+  + artifact_bucket_id = (known after apply)
+  + mlflow_password    = (sensitive value)
+  + mlflow_username    = "doug"
+  + service_url        = (known after apply)
+  + status             = (known after apply)
 
 Do you want to perform these actions?
   Terraform will perform the actions described above.

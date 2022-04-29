@@ -23,6 +23,7 @@ resource "aws_s3_bucket_intelligent_tiering_configuration" "bucket_lifecycle" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_encryption" {
+  count  = local.create_dedicated_bucket ? 1 : 0
   bucket = aws_s3_bucket.mlflow_artifact_store.0.bucket
 
   rule {
@@ -33,6 +34,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_encryption
 }
 
 resource "aws_s3_bucket_acl" "bucket_acl" {
+  count  = local.create_dedicated_bucket ? 1 : 0
   bucket = aws_s3_bucket.mlflow_artifact_store.0.id
   acl    = "private"
 }
