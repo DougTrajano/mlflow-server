@@ -46,10 +46,11 @@ resource "aws_apprunner_service" "mlflow_server" {
 
   health_check_configuration {
     healthy_threshold   = 1
+    unhealthy_threshold = 5
     interval            = 20
-    # protocol            = "HTTP"
     timeout             = 20
-    unhealthy_threshold = 20
+    path                = "/health"
+    protocol            = "HTTP"
   }
 
   tags = merge(
