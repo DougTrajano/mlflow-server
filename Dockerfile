@@ -20,6 +20,9 @@ RUN pip install --upgrade pip && \
 RUN chmod +x /app/scripts/mlflow.sh && \
     chmod +x /app/scripts/nginx.sh
 
+# Monkey patching mlflow.store.db.utils.py to add NullPool to sqlalchemy engine
+RUN cp /app/src/utils.py /usr/local/lib/python3.10/site-packages/mlflow/store/db/utils.py
+
 EXPOSE ${PORT}
 
 # WWW (nginx)
