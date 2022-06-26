@@ -58,6 +58,12 @@ variable "mlflow_password" {
   default = null
 }
 
+variable "mlflow_log_level" {
+  description = "Log level for MLflow."
+  type = string
+  default = "INFO"
+}
+
 variable "artifact_bucket_id" {
   type        = string
   default     = null
