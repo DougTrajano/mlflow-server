@@ -44,5 +44,6 @@ echo "Starting mlflow server"
 exec mlflow server --host 0.0.0.0 --port 5001 \
     --default-artifact-root "${MLFLOW_ARTIFACT_URI}" \
     --backend-store-uri "${MLFLOW_BACKEND_URI}" \
+    --serve-artifacts \
     --log-level ${MLFLOW_LOG_LEVEL} \
-    --gunicorn-opts "--worker-class gevent --threads 3 --workers 3 --timeout 300 --keep-alive 300"
+    --gunicorn-opts "--worker-class gevent --threads 2 --workers 2 --timeout 300 --keep-alive 300"
