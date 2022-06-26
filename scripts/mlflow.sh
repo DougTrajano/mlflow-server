@@ -34,14 +34,10 @@ if [[ -z "${MLFLOW_BACKEND_URI}" ]]; then
     export MLFLOW_BACKEND_URI=${MLFLOW_DB_DIALECT}://${MLFLOW_DB_USERNAME}:${MLFLOW_DB_PASSWORD}@${MLFLOW_DB_HOST}:${MLFLOW_DB_PORT}/${MLFLOW_DB_DATABASE}
 fi
 
-if [[ -z "${MLFLOW_LOG_LEVEL}" ]]; then
-    echo "MLFLOW_LOG_LEVEL can not be set. Define default value as INFO."
-    export MLFLOW_ARTIFACT_URI="INFO"
-fi
-
 echo "Starting mlflow server"
 
 exec mlflow server --host 0.0.0.0 --port 5001 \
     --default-artifact-root "${MLFLOW_ARTIFACT_URI}" \
     --backend-store-uri "${MLFLOW_BACKEND_URI}" \
+    --serve-artifacts \
     --gunicorn-opts "--worker-class gevent --threads 2 --workers 2 --timeout 300 --keep-alive 300"
