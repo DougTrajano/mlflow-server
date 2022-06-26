@@ -27,7 +27,6 @@ resource "aws_apprunner_service" "mlflow_server" {
           "MLFLOW_TRACKING_USERNAME" = var.mlflow_username
           "MLFLOW_TRACKING_PASSWORD" = local.mlflow_password
           "MLFLOW_SQLALCHEMYSTORE_POOL_CLASS" = "NullPool"
-          "MLFLOW_LOG_LEVEL" = var.mlflow_log_level
           }
         }    
       }

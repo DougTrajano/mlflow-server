@@ -64,12 +64,6 @@ variable "mlflow_password" {
   default = null
 }
 
-variable "mlflow_log_level" {
-  description = "Log level for MLflow."
-  type = string
-  default = "INFO"
-}
-
 variable "mlflow_version" {
   description = "The mlflow-server version to use. See github.com/DougTrajano/mlflow-server for the available versions."
   type = string
