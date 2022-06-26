@@ -1,4 +1,4 @@
-name: deploy
+name: build_tag
 
 on:
   push:
@@ -42,7 +42,6 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
-          #ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REGISTRY: public.ecr.aws/t9j8s4z8
           ECR_REPOSITORY: mlflow
           IMAGE_TAG:  ${{ steps.prep.outputs.version }}
