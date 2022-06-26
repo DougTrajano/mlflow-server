@@ -70,6 +70,12 @@ variable "mlflow_log_level" {
   default = "INFO"
 }
 
+variable "mlflow_version" {
+  description = "The mlflow-server version to use. See github.com/DougTrajano/mlflow-server for the available versions."
+  type = string
+  default = "latest"
+}
+
 variable "artifact_bucket_id" {
   type        = string
   default     = null

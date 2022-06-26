@@ -11,7 +11,7 @@ resource "aws_apprunner_service" "mlflow_server" {
     auto_deployments_enabled = false
 
     image_repository {
-      image_identifier      = "public.ecr.aws/t9j8s4z8/mlflow:latest"
+      image_identifier      = "public.ecr.aws/t9j8s4z8/mlflow:${var.mlflow_version}"
       image_repository_type = "ECR_PUBLIC"
 
       image_configuration {
