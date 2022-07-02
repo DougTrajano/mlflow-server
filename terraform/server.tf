@@ -63,6 +63,7 @@ resource "aws_apprunner_service" "mlflow_server" {
 }
 
 resource "aws_security_group" "mlflow_server_sg" {
+  count       = local.create_dedicated_vpc ? 1 : 0
   name        = "${var.name}-server-sg"
   description = "Allow access to ${local.name}-rds from VPC Connector."
   vpc_id      = local.vpc_id
@@ -91,5 +92,5 @@ resource "aws_security_group" "mlflow_server_sg" {
 resource "aws_apprunner_vpc_connector" "connector" {
   vpc_connector_name = "${local.name}-connector"
   subnets            = local.db_subnet_ids
-  security_groups    = local.create_dedicated_vpc ? [aws_security_group.mlflow_server_sg.id] : var.vpc_security_group_ids
+  security_groups    = local.create_dedicated_vpc ? [aws_security_group.mlflow_server_sg.0.id] : var.vpc_security_group_ids
 }
