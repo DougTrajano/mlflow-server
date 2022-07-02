@@ -10,7 +10,13 @@ variable "environment" {
   default = "dev"
 }
 
-variable "region" {
+variable "aws_profile" {
+  description = "(Optional) AWS profile to use. If not specified, the default profile will be used."
+  type = string
+  default = "default"
+}
+
+variable "aws_region" {
   description = "(Optional) AWS Region."
   type = string
   default = "us-east-1"
@@ -58,10 +64,10 @@ variable "mlflow_password" {
   default = null
 }
 
-variable "mlflow_log_level" {
-  description = "Log level for MLflow."
+variable "mlflow_version" {
+  description = "The mlflow-server version to use. See github.com/DougTrajano/mlflow-server for the available versions."
   type = string
-  default = "INFO"
+  default = "latest"
 }
 
 variable "artifact_bucket_id" {

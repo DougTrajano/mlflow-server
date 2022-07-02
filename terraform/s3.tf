@@ -42,6 +42,7 @@ resource "aws_s3_bucket_acl" "bucket_acl" {
 resource "aws_s3_bucket" "mlflow_artifact_store" {
   count         = local.create_dedicated_bucket ? 1 : 0
   bucket_prefix = "${local.name}-"
+  force_destroy = true
 
   tags = merge(
     {

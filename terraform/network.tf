@@ -48,3 +48,16 @@ resource "aws_route_table_association" "mlflow_crt_association" {
   subnet_id      = aws_subnet.mlflow_public_subnet.0.id
   route_table_id = aws_route_table.mlflow_crt.0.id
 }
+
+resource "aws_vpc_endpoint" "mlflow_endpoint" {
+  count  = local.create_dedicated_vpc ? 1 : 0
+  vpc_id = local.vpc_id
+
+  service_name = "com.amazonaws.${var.aws_region}.s3"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids = [aws_route_table.mlflow_crt.0.id]
+
+  tags = {
+    Name = "${local.name}-endpoint"
+  }
+}

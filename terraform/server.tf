@@ -11,7 +11,7 @@ resource "aws_apprunner_service" "mlflow_server" {
     auto_deployments_enabled = false
 
     image_repository {
-      image_identifier      = "public.ecr.aws/t9j8s4z8/mlflow:latest"
+      image_identifier      = "public.ecr.aws/t9j8s4z8/mlflow:${var.mlflow_version}"
       image_repository_type = "ECR_PUBLIC"
 
       image_configuration {
@@ -27,7 +27,6 @@ resource "aws_apprunner_service" "mlflow_server" {
           "MLFLOW_TRACKING_USERNAME" = var.mlflow_username
           "MLFLOW_TRACKING_PASSWORD" = local.mlflow_password
           "MLFLOW_SQLALCHEMYSTORE_POOL_CLASS" = "NullPool"
-          "MLFLOW_LOG_LEVEL" = var.mlflow_log_level
           }
         }    
       }
@@ -64,6 +63,7 @@ resource "aws_apprunner_service" "mlflow_server" {
 }
 
 resource "aws_security_group" "mlflow_server_sg" {
+  count       = local.create_dedicated_vpc ? 1 : 0
   name        = "${var.name}-server-sg"
   description = "Allow access to ${local.name}-rds from VPC Connector."
   vpc_id      = local.vpc_id
@@ -92,5 +92,5 @@ resource "aws_security_group" "mlflow_server_sg" {
 resource "aws_apprunner_vpc_connector" "connector" {
   vpc_connector_name = "${local.name}-connector"
   subnets            = local.db_subnet_ids
-  security_groups    = local.create_dedicated_vpc ? [aws_security_group.mlflow_server_sg.id] : var.vpc_security_group_ids
+  security_groups    = local.create_dedicated_vpc ? [aws_security_group.mlflow_server_sg.0.id] : var.vpc_security_group_ids
 }
