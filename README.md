@@ -5,7 +5,6 @@
 ![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
 ![](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 
-
 A dockerized MLflow Tracking Server with basic auth (username and password).
 
 You will have three options to deploy the server: [AWS](#aws), [Heroku](#heroku), and [local](#local).
@@ -208,5 +207,5 @@ mlflow.end_run()
 
 - [Managing your machine learning lifecycle with MLflow and Amazon SageMaker | AWS Machine Learning Blog](https://aws.amazon.com/pt/blogs/machine-learning/managing-your-machine-learning-lifecycle-with-mlflow-and-amazon-sagemaker/)
 - [Introducing AWS App Runner](https://aws.amazon.com/pt/blogs/containers/introducing-aws-app-runner/)
-- [MLflow Documentation](https://www.mlflow.org/docs/latest/index.html) (current version: 1.25.1)
+- [MLflow Documentation](https://www.mlflow.org/docs/latest/index.html) (current version: 1.27.0)
 - [soundsensing/mlflow-easyauth: Deploy MLflow with HTTP basic authentication using Docker](https://github.com/soundsensing/mlflow-easyauth)
