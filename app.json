@@ -1,7 +1,7 @@
 {
     "name": "mlflow-server",
     "description": "MLflow Tracking Server with basic authentication (user/password).",
-    "logo": "https://mlflow.org/docs/1.27.0/_static/MLflow-logo-final-black.png",
+    "logo": "https://avatars.githubusercontent.com/u/39938107?v=4",
     "keywords": [
         "machine learning",
         "data science",
