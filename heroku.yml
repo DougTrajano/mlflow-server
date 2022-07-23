@@ -1,6 +1,6 @@
 build:
   docker:
-    mlflow: Dockerfile
+    web: Dockerfile
 
 setup:
   addons:

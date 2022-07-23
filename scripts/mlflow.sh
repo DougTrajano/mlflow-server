@@ -9,29 +9,41 @@ if [[ -z "${MLFLOW_ARTIFACT_URI}" ]]; then
     export MLFLOW_ARTIFACT_URI="./mlruns"
 fi
 
-if [[ -z "${MLFLOW_DB_DIALECT}" ]]; then
-    export MLFLOW_DB_DIALECT="mysql+pymysql"
-fi
-
-if [[ -z "${MLFLOW_DB_USERNAME}" ]]; then
-    export MLFLOW_DB_USERNAME="mlflow"
-fi
-
-if [[ -z "${MLFLOW_DB_PASSWORD}" ]]; then
-    export MLFLOW_DB_PASSWORD="mlflow"
-fi
-
-if [[ -z "${MLFLOW_DB_DATABASE}" ]]; then
-    export MLFLOW_DB_DATABASE="mlflow"
-fi
-
-if [[ -z "${MLFLOW_DB_PORT}" ]]; then
-    export MLFLOW_DB_PORT=3306
+if [[ -n "${DATABASE_URL}" ]]; then
+    export MLFLOW_BACKEND_URI="${DATABASE_URL}"
+    unset DATABASE_URL
 fi
 
 if [[ -z "${MLFLOW_BACKEND_URI}" ]]; then
     echo "MLFLOW_BACKEND_URI not set. Define default value based on other variables."
+
+    if [[ -z "${MLFLOW_DB_DIALECT}" ]]; then
+        export MLFLOW_DB_DIALECT="mysql+pymysql"
+    fi
+
+    if [[ -z "${MLFLOW_DB_USERNAME}" ]]; then
+        export MLFLOW_DB_USERNAME="mlflow"
+    fi
+
+    if [[ -z "${MLFLOW_DB_PASSWORD}" ]]; then
+        export MLFLOW_DB_PASSWORD="mlflow"
+    fi
+
+    if [[ -z "${MLFLOW_DB_DATABASE}" ]]; then
+        export MLFLOW_DB_DATABASE="mlflow"
+    fi
+
+    if [[ -z "${MLFLOW_DB_PORT}" ]]; then
+        export MLFLOW_DB_PORT=3306
+    fi
+
     export MLFLOW_BACKEND_URI=${MLFLOW_DB_DIALECT}://${MLFLOW_DB_USERNAME}:${MLFLOW_DB_PASSWORD}@${MLFLOW_DB_HOST}:${MLFLOW_DB_PORT}/${MLFLOW_DB_DATABASE}
+    unset MLFLOW_DB_DIALECT
+    unset MLFLOW_DB_USERNAME
+    unset MLFLOW_DB_PASSWORD
+    unset MLFLOW_DB_DATABASE
+    unset MLFLOW_DB_HOST
+    unset MLFLOW_DB_PORT
 fi
 
 echo "Starting mlflow server"
