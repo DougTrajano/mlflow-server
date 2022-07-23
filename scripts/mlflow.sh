@@ -11,6 +11,9 @@ fi
 
 if [[ -n "${DATABASE_URL}" ]]; then
     export MLFLOW_BACKEND_URI="${DATABASE_URL}"
+    # Heroku uses "postgres" dialect, but we want to use "postgresql"
+    # so we will update MLFLOW_BACKEND_URI to use "postgresql" dialect.
+    python -c "import os; os.environ['MLFLOW_BACKEND_URI'] = os.environ['MLFLOW_BACKEND_URI'].replace('postgres', 'postgresql')"
     unset DATABASE_URL
 fi
 
