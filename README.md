@@ -1,5 +1,7 @@
 # [MLflow](https://www.mlflow.org/) with basic auth
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/DougTrajano/mlflow-server/tree/main)
+
 This project deploys an MLflow Tracking Server with basic auth (username and password).
 
 We also provide a [Terraform](https://www.terraform.io/) configuration in the [terraform](terraform) directory that creates the required resources in AWS.  It uses the [AWS App Runner](https://aws.amazon.com/apprunner/) (a low-cost solution to run containers on AWS) to run the server.
