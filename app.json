@@ -18,7 +18,7 @@
         },
         "MLFLOW_TRACKING_PASSWORD": {
             "description": "Password for MLflow UI and API.",
-            "generator": "secret"
+            "value": "mlflow"
         },
         "MLFLOW_ARTIFACT_URI": {
             "description": "URI for mlflow artifacts",
