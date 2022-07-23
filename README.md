@@ -22,7 +22,7 @@ The environment variables below are required to deploy this project.
 | PORT | Port for the MLflow server | `80` |
 | MLFLOW_ARTIFACT_URI | S3 Bucket URI for MLflow's artifact store | `"./mlruns"`
 | MLFLOW_BACKEND_URI | [SQLAlchemy database uri](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls) (if provided, the other variables `MLFLOW_DB_*` are ignored) | |
-| MLFLOW_DB_DIALECT | Database dialect (e.g. postgresql, mysql+pymysql, sqlite) | `"mysql+pymysql"` |
+| MLFLOW_DB_DIALECT | Database dialect (e.g. postgresql, mysql+pymysql, sqlite) | `"postgresql"` |
 | MLFLOW_DB_USERNAME | Backend store username | `"mlflow"` |
 | MLFLOW_DB_PASSWORD | Backend store password | `"mlflow"` |
 | MLFLOW_DB_HOST | Backend store host | |
@@ -32,14 +32,6 @@ The environment variables below are required to deploy this project.
 | MLFLOW_TRACKING_PASSWORD | Password for MLflow UI and API | `"mlflow"` |
 
 ## Deploying MLflow Tracking Server
-
-### Prerequisites
-
-- [AWS Account](https://console.aws.amazon.com/console/)
-- [Heroku Account](https://dashboard.heroku.com/) `Optional`
-  - The [Heroku](#heroku) deployment will use an Amazon S3 bucket for storing the MLflow tracking data.
-- [AWS CLI](https://aws.amazon.com/cli/)
-- [Terraform CLI](https://www.terraform.io/downloads.html)
 
 ### AWS
 
@@ -76,6 +68,12 @@ The environment variables below are required to deploy this project.
 
 </p>
 </details>
+
+#### Prerequisites
+
+- [AWS Account](https://console.aws.amazon.com/console/)
+- [AWS CLI](https://aws.amazon.com/cli/)
+- [Terraform CLI](https://www.terraform.io/downloads.html)
 
 To deploy MLflow, you'll need to:
 
@@ -133,6 +131,14 @@ This will create the following resources:
 
 ### Heroku
 
+#### Prerequisites
+
+- [Heroku Account](https://dashboard.heroku.com/)
+- [AWS Account](https://console.aws.amazon.com/console/)
+  - The [Heroku](#heroku) deployment will use an Amazon S3 bucket for storing the MLflow tracking data.
+- [AWS CLI](https://aws.amazon.com/cli/)
+- [Terraform CLI](https://www.terraform.io/downloads.html)
+
 1. Create an Amazon S3 bucket.
 
 TODO
@@ -149,7 +155,9 @@ TODO
 
 ### Local
 
-The local deployment will require an additional prerequisite, which is the [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/install/).
+#### Prerequisites
+
+- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/install/).
 
 1. Clone this repository.
 
@@ -157,7 +165,7 @@ The local deployment will require an additional prerequisite, which is the [Dock
 git clone https://github.com/DougTrajano/mlflow-server.git
 ```
 
-2. Open `mlflow-server` folder.
+2. Open the `mlflow-server` folder.
 
 ```bash
 cd mlflow-server

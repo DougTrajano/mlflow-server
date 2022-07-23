@@ -21,7 +21,7 @@ if [[ -z "${MLFLOW_BACKEND_URI}" ]]; then
     echo "MLFLOW_BACKEND_URI not set. Define default value based on other variables."
 
     if [[ -z "${MLFLOW_DB_DIALECT}" ]]; then
-        export MLFLOW_DB_DIALECT="mysql+pymysql"
+        export MLFLOW_DB_DIALECT="postgresql"
     fi
 
     if [[ -z "${MLFLOW_DB_USERNAME}" ]]; then

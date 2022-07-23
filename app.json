@@ -11,6 +11,7 @@
     ],
     "repository": "https://github.com/DougTrajano/mlflow-server",
     "stack": "container",
+    "success_url": "/",
     "env": {
         "MLFLOW_TRACKING_USERNAME": {
             "description": "Username for MLflow UI and API.",
