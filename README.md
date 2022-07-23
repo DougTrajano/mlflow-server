@@ -37,7 +37,7 @@ We also provide a [Terraform](https://www.terraform.io/) configuration in the [t
 <details><summary>Amazon Aurora Serverless</summary>
 <p>
 
-[Amazon Aurora Serverless](https://aws.amazon.com/rds/aurora/serverless/) is an on-demand, autoscaling configuration for Amazon Aurora. It automatically starts up, shuts down, and scales capacity up or down based on your application's needs. You can run your database on AWS without managing database capacity.
+[Amazon Aurora Serverless](https://aws.amazon.com/rds/aurora/serverless/) is an on-demand, auto-scaling configuration for Amazon Aurora. It automatically starts up, shuts down, and scales capacity up or down based on your application's needs. You can run your database on AWS without managing database capacity.
 
 </p>
 </details>
@@ -153,9 +153,9 @@ Do you want to perform these actions?
 
 This will create the following resources:
 
-- An [S3 bucket](https://aws.amazon.com/s3/) used to store MLflow artifacts.
-- An [IAM role and policy](https://aws.amazon.com/iam/) that allow MLflow to access the S3 bucket.
-- An [Aurora RDS Serverless](https://aws.amazon.com/rds/aurora/serverless/) database (PostgreSQL) used to store MLflow data.
+- An [S3 bucket](https://aws.amazon.com/s3/) is used to store MLflow artifacts.
+- An [IAM role and [policy](https://aws.amazon.com/iam/) that allows MLflow to access the S3 bucket.
+- An [Aurora RDS Serverless](https://aws.amazon.com/rds/aurora/serverless/) database (PostgreSQL) is used to store MLflow data.
 - An [App Runner](https://aws.amazon.com/apprunner/) that will run the MLflow Tracking Server.
 - (Optional) A set of network resources such as [VPC](https://aws.amazon.com/vpc/), [Subnet](https://aws.amazon.com/ec2/subnets/), and [Security group](https://aws.amazon.com/ec2/security-groups/).
 
