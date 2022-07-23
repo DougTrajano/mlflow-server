@@ -14,8 +14,6 @@ if [[ -n "${DATABASE_URL}" ]]; then
     # so we will update MLFLOW_BACKEND_URI to use "postgresql" dialect.
     # https://www.mlflow.org/docs/latest/tracking.html#where-runs-are-recorded
     export MLFLOW_BACKEND_URI="${DATABASE_URL/postgres/postgresql}"   
-    
-    echo "MLFLOW_BACKEND_URI is set to ${MLFLOW_BACKEND_URI}"
     unset DATABASE_URL
 fi
 

@@ -1,12 +1,42 @@
 # [MLflow](https://www.mlflow.org/) with basic auth
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/DougTrajano/mlflow-server/tree/main)
+A dockerized MLflow Tracking Server with basic auth (username and password).
 
-This project deploys an MLflow Tracking Server with basic auth (username and password).
+You will have three options to deploy the server: [AWS](#aws), [Heroku](#heroku), and [local](#local).
 
-We also provide a [Terraform](https://www.terraform.io/) configuration in the [terraform](terraform) directory that creates the required resources in AWS.  It uses the [AWS App Runner](https://aws.amazon.com/apprunner/) (a low-cost solution to run containers on AWS) to run the server.
+We provide a [Terraform](https://www.terraform.io/) stack that can be easily used to deploy the MLflow Tracking Server.
 
-## Architecture
+> **NOTE**: This project is not intended to be used for production deployments. It is intended to be used for testing and development.
+
+## Environment Variables
+
+The environment variables below are required to deploy this project.
+
+| Variable | Description | Default |
+| - | - | - |
+| PORT | Port for the MLflow server | `80` |
+| MLFLOW_ARTIFACT_URI | S3 Bucket URI for MLflow's artifact store | `"./mlruns"`
+| MLFLOW_BACKEND_URI | [SQLAlchemy database uri](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls) (if provided, the other variables `MLFLOW_DB_*` are ignored) | |
+| MLFLOW_DB_DIALECT | Database dialect (e.g. postgresql, mysql+pymysql, sqlite) | `"mysql+pymysql"` |
+| MLFLOW_DB_USERNAME | Backend store username | `"mlflow"` |
+| MLFLOW_DB_PASSWORD | Backend store password | `"mlflow"` |
+| MLFLOW_DB_HOST | Backend store host | |
+| MLFLOW_DB_PORT | Backend store port | `3306` |
+| MLFLOW_DB_DATABASE | Backend store database | `"mlflow"` |
+| MLFLOW_TRACKING_USERNAME | Username for MLflow UI and API | `"mlflow"` |
+| MLFLOW_TRACKING_PASSWORD | Password for MLflow UI and API | `"mlflow"` |
+
+## Deploying MLflow Tracking Server
+
+### Prerequisites
+
+- [AWS Account](https://console.aws.amazon.com/console/)
+- [Heroku Account](https://dashboard.heroku.com/) `Optional`
+  - The [Heroku](#heroku) deployment will use an Amazon S3 bucket for storing the MLflow tracking data.
+- [AWS CLI](https://aws.amazon.com/cli/)
+- [Terraform CLI](https://www.terraform.io/downloads.html)
+
+### AWS
 
 ![](docs/images/architecture_mlflow.png)
 
@@ -41,69 +71,6 @@ We also provide a [Terraform](https://www.terraform.io/) configuration in the [t
 
 </p>
 </details>
-
-## Environment Variables
-
-The environment variables below are required to deploy this project.
-
-| Variable | Description | Default |
-| - | - | - |
-| PORT | Port for the MLflow server | `80` |
-| MLFLOW_ARTIFACT_URI | S3 Bucket URI for MLflow's artifact store | `"./mlruns"`
-| MLFLOW_BACKEND_URI | [SQLAlchemy database uri](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls) (if provided, the other variables `MLFLOW_DB_*` are ignored) | |
-| MLFLOW_DB_DIALECT | Database dialect (e.g. postgresql, mysql+pymysql, sqlite) | `"mysql+pymysql"` |
-| MLFLOW_DB_USERNAME | Backend store username | `"mlflow"` |
-| MLFLOW_DB_PASSWORD | Backend store password | `"mlflow"` |
-| MLFLOW_DB_HOST | Backend store host | |
-| MLFLOW_DB_PORT | Backend store port | `3306` |
-| MLFLOW_DB_DATABASE | Backend store database | `"mlflow"` |
-| MLFLOW_TRACKING_USERNAME | Username for MLflow UI and API | `"mlflow"` |
-| MLFLOW_TRACKING_PASSWORD | Password for MLflow UI and API | `"mlflow"` |
-
-## Using your deployed MLflow
-
-You can access the MLflow UI in your App Runner URL: https://XXXXXXXXX.aws-region.awsapprunner.com/
-
-![](docs/images/mlflow_ui.png)
-
-Also, you can track your experiments using MLflow API.
-
-```python
-import os
-import mlflow
-
-os.environ["MLFLOW_TRACKING_URI"] = "https://XXXXXXXXX.aws-region.awsapprunner.com/"
-os.environ["MLFLOW_EXPERIMENT_NAME"] = "amazing-experiment"
-os.environ["MLFLOW_TRACKING_USERNAME"] = "user"
-os.environ["MLFLOW_TRACKING_PASSWORD"] = "pass"
-
-# AWS AK/SK are required to upload artifacts to S3 Bucket
-os.environ["AWS_ACCESS_KEY_ID"] = "AWS_ACCESS_KEY"
-os.environ["AWS_SECRET_ACCESS_KEY"] = "AWS_SECRET_KEY"
-
-SEED = 1993
-
-mlflow.start_run()
-mlflow.log_param("seed", SEED)
-mlflow.end_run()
-```
-
-## How to deploy MLflow with auth
-
-In this section, we'll walk through deploying this MLflow docker image with basic authentication.
-
-This project provides a terraform stack that can be easily used to deploy the MLflow server with basic authentication.
-
-> **NOTE**: This project is not intended to be used for production deployments. It is intended to be used for testing and development.
-
-### Prerequisites
-
-You'll need to have the following installed:
-
-- [AWS CLI](https://aws.amazon.com/cli/)
-- [Terraform CLI](https://www.terraform.io/downloads.html)
-
-### Deploying MLflow
 
 To deploy MLflow, you'll need to:
 
@@ -158,6 +125,78 @@ This will create the following resources:
 - An [Aurora RDS Serverless](https://aws.amazon.com/rds/aurora/serverless/) database (PostgreSQL) is used to store MLflow data.
 - An [App Runner](https://aws.amazon.com/apprunner/) that will run the MLflow Tracking Server.
 - (Optional) A set of network resources such as [VPC](https://aws.amazon.com/vpc/), [Subnet](https://aws.amazon.com/ec2/subnets/), and [Security group](https://aws.amazon.com/ec2/security-groups/).
+
+### Heroku
+
+1. Create an Amazon S3 bucket.
+
+TODO
+
+2. Create an IAM role and policy that allows MLflow to access the S3 bucket.
+
+TODO
+
+3. Click on the "Deploy to Heroku" button below.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/DougTrajano/mlflow-server/tree/main)
+
+4. Follow the instructions on the new page to create an MLflow Tracking Server.
+
+### Local
+
+The local deployment will require an additional prerequisite, which is the [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/install/).
+
+1. Clone this repository.
+
+```bash
+git clone https://github.com/DougTrajano/mlflow-server.git
+```
+
+2. Open `mlflow-server` folder.
+
+```bash
+cd mlflow-server
+```
+
+3. Run the following command to create all the required resources:
+
+```bash
+docker-compose up -d
+```
+
+## Using your deployed MLflow
+
+The link that you will use to access the MLflow Tracking Server will depend on the deployment method you choose.
+
+- For [AWS](#aws), the link will be something like `https://XXXXXXXXX.aws-region.awsapprunner.com/`.
+  - You can find it in the [AWS App Runner console](https://us-east-1.console.aws.amazon.com/apprunner/home).
+- For [Heroku](#heroku), the link will be something like `https://XXXXXXXXX.herokuapp.com/`.
+  - You can find it in the [Heroku dashboard](https://dashboard.heroku.com/apps/).
+- For [Local](#local), the link will be something like `http://localhost:80/`.
+
+![](docs/images/mlflow_ui.png)
+
+Also, you can track your experiments using MLflow API.
+
+```python
+import os
+import mlflow
+
+os.environ["MLFLOW_TRACKING_URI"] = "<<YOUR-MLFLOW-TRACKING-URI>>"
+os.environ["MLFLOW_EXPERIMENT_NAME"] = "<<YOUR-EXPERIMENT-NAME>>"
+os.environ["MLFLOW_TRACKING_USERNAME"] = "<<YOUR-MLFLOW-USERNAME>>"
+os.environ["MLFLOW_TRACKING_PASSWORD"] = "<<YOUR-MLFLOW-PASSWORD>>"
+
+# AWS AK/SK are required to upload artifacts to S3 Bucket
+os.environ["AWS_ACCESS_KEY_ID"] = "<<AWS-ACCESS-KEY-ID>>"
+os.environ["AWS_SECRET_ACCESS_KEY"] = "<<AWS-SECRET-ACCESS-KEY>>"
+
+SEED = 1993
+
+mlflow.start_run()
+mlflow.log_param("seed", SEED)
+mlflow.end_run()
+```
 
 ## References
 
