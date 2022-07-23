@@ -1,5 +1,5 @@
 output "artifact_bucket_id" {
-  value = aws_s3_bucket.mlflow_artifact_store.0.id
+  value = module.s3.artifact_bucket_id
 }
 
 output "service_url" {

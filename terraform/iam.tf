@@ -44,7 +44,7 @@ resource "aws_iam_role_policy" "mlflow_bucket_policy" {
           "s3:HeadBucket",
         ]
         Resource = concat(
-          aws_s3_bucket.mlflow_artifact_store.*.arn,
+          module.s3.artifact_bucket_arn,
         )
       },
       {
@@ -68,7 +68,7 @@ resource "aws_iam_role_policy" "mlflow_bucket_policy" {
           "s3:GetObjectVersion",
         ]
         Resource = [
-          for bucket in concat(aws_s3_bucket.mlflow_artifact_store.*.arn) :
+          for bucket in concat(module.s3.artifact_bucket_arn) :
           "${bucket}/*"
         ]
       },

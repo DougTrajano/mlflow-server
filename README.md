@@ -22,6 +22,7 @@ The environment variables below are required to deploy this project.
 | PORT | Port for the MLflow server | `80` |
 | MLFLOW_ARTIFACT_URI | S3 Bucket URI for MLflow's artifact store | `"./mlruns"`
 | MLFLOW_BACKEND_URI | [SQLAlchemy database uri](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls) (if provided, the other variables `MLFLOW_DB_*` are ignored) | |
+| DATABASE_URL | [SQLAlchemy database uri](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls), it's used by Heroku deployment. | |
 | MLFLOW_DB_DIALECT | Database dialect (e.g. postgresql, mysql+pymysql, sqlite) | `"postgresql"` |
 | MLFLOW_DB_USERNAME | Backend store username | `"mlflow"` |
 | MLFLOW_DB_PASSWORD | Backend store password | `"mlflow"` |
@@ -139,19 +140,84 @@ This will create the following resources:
 - [AWS CLI](https://aws.amazon.com/cli/)
 - [Terraform CLI](https://www.terraform.io/downloads.html)
 
-1. Create an Amazon S3 bucket.
+1. [Create an AWS account](https://aws.amazon.com/free/) if you don't already have one.
 
-TODO
+2. Configure AWS CLI to use your AWS account.
 
-2. Create an IAM role and policy that allows MLflow to access the S3 bucket.
+3. Clone this repository.
 
-TODO
+```bash
+git clone https://github.com/DougTrajano/mlflow-server.git
+```
 
-3. Click on the "Deploy to Heroku" button below.
+4. Open `mlflow-server/terraform` folder.
+
+```bash
+cd mlflow-server/terraform
+```
+
+5. Run the following command to create only the S3 bucket
+
+```bash
+terraform init
+terraform apply -var environment="heroku" -target="module.s3"
+```
+
+6. Type "yes" when prompted to continue.
+
+```log
+Plan: 5 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + artifact_bucket_id = (known after apply)
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+```
+
+2. Create an IAM Policy for the S3 bucket as follows:
+
+<details><summary>IAM Policy example</summary>
+<p>
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+              "s3:ListBucket"
+            ],
+            "Resource": "arn:aws:s3:::mlflow-heroku-20220723133820303500000001"
+          },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*",
+                "s3-object-lambda:*"
+            ],
+            "Resource": "arn:aws:s3:::mlflow-heroku-20220723133820303500000001/*"
+        }
+    ]
+}
+```
+
+</p>
+</details>
+
+3. Create an IAM User and attach the IAM Policy previously created.
+
+> Take note of the IAM User access key and secret key, you'll need them in the step 5.
+
+4. Click on the "Deploy to Heroku" button below.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/DougTrajano/mlflow-server/tree/main)
 
-4. Follow the instructions on the new page to create an MLflow Tracking Server.
+5. Follow the instructions on the new page to create an MLflow Tracking Server.
 
 ### Local
 

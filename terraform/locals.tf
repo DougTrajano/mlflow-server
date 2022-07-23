@@ -20,7 +20,7 @@ locals {
 
     # S3 bucket
     create_dedicated_bucket = var.artifact_bucket_id == null
-    artifact_bucket_id      = local.create_dedicated_bucket ? aws_s3_bucket.mlflow_artifact_store.0.id : var.artifact_bucket_id
+    artifact_bucket_id      = local.create_dedicated_bucket ? module.s3.artifact_bucket_id : var.artifact_bucket_id
 
     # App Runner
     app_port = 8080
