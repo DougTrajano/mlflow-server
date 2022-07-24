@@ -22,7 +22,7 @@ The environment variables below are required to deploy this project.
 | PORT | Port for the MLflow server | `80` |
 | MLFLOW_ARTIFACT_URI | S3 Bucket URI for MLflow's artifact store | `"./mlruns"`
 | MLFLOW_BACKEND_URI | [SQLAlchemy database uri](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls) (if provided, the other variables `MLFLOW_DB_*` are ignored) | |
-| DATABASE_URL | [SQLAlchemy database uri](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls), it's used by Heroku deployment. | |
+| DATABASE_URL | [SQLAlchemy database uri](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls), it's used by Heroku deployment. Basically, we will move it to `MLFLOW_BACKEND_URI`. | |
 | MLFLOW_DB_DIALECT | Database dialect (e.g. postgresql, mysql+pymysql, sqlite) | `"postgresql"` |
 | MLFLOW_DB_USERNAME | Backend store username | `"mlflow"` |
 | MLFLOW_DB_PASSWORD | Backend store password | `"mlflow"` |
