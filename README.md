@@ -240,7 +240,7 @@ cd mlflow-server
 3. Run the following command to create all the required resources:
 
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
 
 ## Using your deployed MLflow

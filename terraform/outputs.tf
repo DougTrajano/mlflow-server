@@ -1,5 +1,5 @@
 output "artifact_bucket_id" {
-  value = module.s3.artifact_bucket_id
+  value = local.artifact_bucket_id
 }
 
 output "service_url" {
