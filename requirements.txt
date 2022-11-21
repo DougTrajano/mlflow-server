@@ -3,4 +3,4 @@ pymysql==1.0.2
 psycopg2-binary==2.9.4
 protobuf==4.21.8
 gevent==22.10.1
-boto3==1.24.96
+boto3==1.26.13
