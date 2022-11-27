@@ -28,4 +28,4 @@ EXPOSE ${PORT}
 RUN addgroup -gid 1000 www && \
     adduser -uid 1000 -H -D -s /bin/sh -G www www
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
