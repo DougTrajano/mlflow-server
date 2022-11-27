@@ -49,6 +49,9 @@ if [[ -z "${MLFLOW_BACKEND_URI}" ]]; then
     unset MLFLOW_DB_PORT
 fi
 
+echo "Upgrading database..."
+mlflow db upgrade ${MLFLOW_BACKEND_URI}
+
 echo "Starting mlflow server"
 
 exec mlflow server --host 0.0.0.0 --port 5001 \
