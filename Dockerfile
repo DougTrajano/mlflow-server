@@ -1,4 +1,4 @@
-FROM python:3.10.5-slim
+FROM python:3.10.8-slim
 
 WORKDIR /app
 
@@ -10,7 +10,9 @@ RUN set -x && \
     supervisor gettext-base nginx apache2-utils
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-#COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# We are getting the nginx.conf in the /scripts/nginx.sh file
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # install pip then packages
 RUN pip install --upgrade pip && \
@@ -19,9 +21,6 @@ RUN pip install --upgrade pip && \
 # Make scripts executable and run env-vars.sh
 RUN chmod +x /app/scripts/mlflow.sh && \
     chmod +x /app/scripts/nginx.sh
-
-# Monkey patching mlflow.store.db.utils.py to add NullPool to sqlalchemy engine
-RUN cp /app/src/utils.py /usr/local/lib/python3.10/site-packages/mlflow/store/db/utils.py
 
 EXPOSE ${PORT}
 

@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   postgres:
-    image: postgres:14.2-alpine3.15
+    image: postgres:15.1-alpine3.16
     restart: unless-stopped
     ports:
       - ${POSTGRES_PORT-5432}:${POSTGRES_PORT-5432}
@@ -38,7 +38,7 @@ services:
       MLFLOW_DB_USERNAME: ${POSTGRES_USER-postgres}
       MLFLOW_TRACKING_PASSWORD: ${MLFLOW_TRACKING_PASSWORD-mlflow}
       MLFLOW_TRACKING_USERNAME: ${MLFLOW_TRACKING_USERNAME-mlflow}
-      MLFLOW_SQLALCHEMYSTORE_POOL_CLASS: NullPool
+      MLFLOW_SQLALCHEMYSTORE_POOLCLASS: NullPool
 
 volumes:
   postgres-db-volume:

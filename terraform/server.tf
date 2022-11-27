@@ -26,7 +26,7 @@ resource "aws_apprunner_service" "mlflow_server" {
           "MLFLOW_DB_DATABASE" = "${aws_rds_cluster.mlflow_backend_store.database_name}"
           "MLFLOW_TRACKING_USERNAME" = var.mlflow_username
           "MLFLOW_TRACKING_PASSWORD" = local.mlflow_password
-          "MLFLOW_SQLALCHEMYSTORE_POOL_CLASS" = "NullPool"
+          "MLFLOW_SQLALCHEMYSTORE_POOLCLASS" = "NullPool"
           }
         }    
       }
