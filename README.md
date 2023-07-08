@@ -101,6 +101,12 @@ terraform init
 terraform apply -var mlflow_username="YOUR-USERNAME" -var mlflow_password="YOUR-PASSWORD"
 ```
 
+Multiple usernames and passwords can also be specified in a comma-delimited string:
+
+```bash
+terraform apply -var mlflow_username="USERNAME1,USERNAME2,USERNAME3" -var mlflow_password="PASSWORD1,PASSWORD2,PASSWORD3"
+```
+
 See a full list of variables that can be used in [terraform/variables.tf](terraform/variables.tf).
 
 6. Type "yes" when prompted to continue.
