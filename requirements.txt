@@ -1,6 +1,6 @@
 mlflow==2.4.1
 pymysql==1.0.3
 psycopg2-binary==2.9.6
-protobuf==4.23.3
+protobuf==4.23.4
 gevent==22.10.2
 boto3==1.26.155
